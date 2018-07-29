@@ -31,17 +31,23 @@
                     BABYLON.Tools.ToRadians(45),
                     BABYLON.Tools.ToRadians(45),
                     10.0, box.position, scene);
+
                 camera.attachControl(canvas, true);
 
-                var light = new BABYLON.SpotLight("spotLight", new BABYLON.Vector3(0,10,0), new BABYLON.Vector3(0,-1,0), BABYLON.Tools.ToRadians(45), 0.1, scene);
+                var light = new BABYLON.PointLight("pointLight", new BABYLON.Vector3(0,10,0), scene);
+                light.parent = camera;
+                light.diffuse = new BABYLON.Color3(1,1,1);
+
+                var material = new BABYLON.StandardMaterial("material1", scene);
+                material.diffuseTexture = new BABYLON.Texture("ab_crate_a.png", scene);
+                material.bumpTexture = new BABYLON.Texture("ab_crate_a_nm.png", scene);
+                box.material = material;
 
                 return scene;
             }
 
             var scene = createScene();
             engine.runRenderLoop(function(){
-                var light = scene.getLightByName("spotLight");
-                light.position.y -= 0.01; // Making the spotlight move closer
                 scene.render();
             });
         });
